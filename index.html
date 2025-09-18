@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirias Prints - Urban T-Shirt Text Art Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #3B9CFF 0%, #1C1C1C 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            margin-left: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title-section h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .title-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #FFD700;
+        }
+
+        #phrase {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        #phrase:focus {
+            outline: none;
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        #phrase::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .style-btn, .color-btn, .icon-btn, .layout-btn, .effect-btn, .background-btn {
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .style-btn:hover, .color-btn:hover, .icon-btn:hover, .layout-btn:hover, .effect-btn:hover, .background-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #FFD700;
+        }
+
+        .style-btn.selected, .color-btn.selected, .icon-btn.selected, .layout-btn.selected, .effect-btn.selected, .background-btn.selected {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #1C1C1C;
+            border-color: #FFD700;
+            font-weight: 600;
+        }
+
+        .color-btn {
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            font-weight: 600;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #1C1C1C;
+            font-size: 1.2rem;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.4);
+        }
+
+        .generate-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .output-section {
+            background: rgba(28, 28, 28, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #FFD700;
+            backdrop-filter: blur(10px);
+        }
+
+        .output-section h3 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        #output-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            background: linear-gradient(45deg, #3B9CFF, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .generate-btn {
+                font-size: 1rem;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Pirias Prints</h1>
+            <nav>
+                <button class="nav-btn" onclick="showAlert('Login feature coming soon!')">Log In</button>
+                <button class="nav-btn" onclick="showAlert('Need help? Contact us at help@piriasrints.com')">Help</button>
+            </nav>
+        </header>
+
+        <!-- Title Section -->
+        <div class="title-section">
+            <h2>Urban T-Shirt Text Art Generator</h2>
+            <p>Style your words. Wear your vibe.</p>
+        </div>
+
+        <!-- Phrase Input -->
+        <div class="section">
+            <label for="phrase">Enter Your Phrase:</label>
+            <input type="text" id="phrase" placeholder="Type something iconic..." oninput="updateOutput()">
+        </div>
+
+        <!-- Style Selection Grid -->
+        <div class="section">
+            <h3>Choose Your Style</h3>
+            <div class="grid">
+                <button class="style-btn" onclick="selectStyle(this, '3D Letters')">3D Letters</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Block Letters')">Block Letters</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Bold Serif')">Bold Serif</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Bubble Gum')">Bubble Gum</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Bubbly High Glossy')">Bubbly High Glossy</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Candy Style')">Candy Style</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Cartoon Bubble')">Cartoon Bubble</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Chalk Style')">Chalk Style</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Chibi 3D')">Chibi 3D</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Comic Style')">Comic Style</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Cursive')">Cursive</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Fire Text')">Fire Text</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Glitch Effect')">Glitch Effect</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Graffiti')">Graffiti</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Hand-Drawn')">Hand-Drawn</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Holographic')">Holographic</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Ice Crystal')">Ice Crystal</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Jelly Letters')">Jelly Letters</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Liquid Metal')">Liquid Metal</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Metallic Chrome')">Metallic Chrome</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Neon Glow')">Neon Glow</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Outline')">Outline</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Retro')">Retro</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Sketched')">Sketched</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Spray Paint')">Spray Paint</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Street Tag')">Street Tag</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Tilted Script')">Tilted Script</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Vibrant Bubble')">Vibrant Bubble</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Vintage Distressed')">Vintage Distressed</button>
+                <button class="style-btn" onclick="selectStyle(this, 'Watercolor')">Watercolor</button>
+            </div>
+        </div>
+
+        <!-- Color Selection -->
+        <div class="section">
+            <h3>Pick Your Colors</h3>
+            <div class="grid">
+                <button class="color-btn" style="background-color: #000000;" onclick="selectColor(this, 'Black')">Black</button>
+                <button class="color-btn" style="background: linear-gradient(to right, #000000, #FF69B4);" onclick="selectColor(this, 'Black & Pink Gradient')">Black & Pink Gradient</button>
+                <button class="color-btn" style="background-color: #0000FF;" onclick="selectColor(this, 'Blue')">Blue</button>
+                <button class="color-btn" style="background: linear-gradient(to right, #0000FF, #00FF00);" onclick="selectColor(this, 'Blue & Green Gradient')">Blue & Green Gradient</button>
+                <button class="color-btn" style="background-color: #8B4513;" onclick="selectColor(this, 'Brown')">Brown</button>
+                <button class="color-btn" style="background-color: #9400D3;" onclick="selectColor(this, 'Deep Violet')">Deep Violet</button>
+                <button class="color-btn" style="background-color: #1F51FF;" onclick="selectColor(this, 'Electric Blue')">Electric Blue</button>
+                <button class="color-btn" style="background: linear-gradient(to right, #FFC0CB, #FFFFFF);" onclick="selectColor(this, 'Pink & White Gradient')">Pink & White Gradient</button>
+                <button class="color-btn" style="background-color: #FFD700;" onclick="selectColor(this, 'Gold')">Gold</button>
+                <button class="color-btn" style="background: linear-gradient(to right, #FFD700, #C0C0C0);" onclick="selectColor(this, 'Gold & Silver Gradient')">Gold & Silver Gradient</button>
+                <button class="color-btn" style="background-color: #FF69B4;" onclick="selectColor(this, 'Hot Pink')">Hot Pink</button>
+                <button class="color-btn" style="background: linear-gradient(to right, #F0F8FF, #E6E6FA);" onclick="selectColor(this, 'Holographic')">Holographic</button>
+                <button class="color-btn" style="background-color: #E6E6FA;" onclick="selectColor(this, 'Lavender')">Lavender</button>
+                <button class="color-btn" style="background-color: #32CD32;" onclick="selectColor(this, 'Lime')">Lime</button>
+                <button class="color-btn" style="background-color: #1C1C1C;" onclick="selectColor(this, 'Matte Black')">Matte Black</button>
+                <button class="color-btn" style="background-color: #39FF14;" onclick="selectColor(this, 'Neon Green')">Neon Green</button>
+                <button class="color-btn" style="background-color: #FFFF00;" onclick="selectColor(this, 'Neon Yellow')">Neon Yellow</button>
+                <button class="color-btn" style="background-color: #FF00FF;" onclick="selectColor(this, 'Neon Pink')">Neon Pink</button>
+                <button class="color-btn" style="background-color: #FFA500;" onclick="selectColor(this, 'Orange')">Orange</button>
+                <button class="color-btn" style="background-color: #FFB6C1;" onclick="selectColor(this, 'Pastel Pink')">Pastel Pink</button>
+                <button class="color-btn" style="background-color: #800080;" onclick="selectColor(this, 'Purple')">Purple</button>
+                <button class="color-btn" style="background: linear-gradient(to right, #800080, #FF69B4);" onclick="selectColor(this, 'Purple & Pink Gradient')">Purple & Pink Gradient</button>
+                <button class="color-btn" style="background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);" onclick="selectColor(this, 'Rainbow')">Rainbow</button>
+                <button class="color-btn" style="background-color: #FF0000;" onclick="selectColor(this, 'Red')">Red</button>
+                <button class="color-btn" style="background: linear-gradient(to right, #FF0000, #FFA500);" onclick="selectColor(this, 'Red & Orange Gradient')">Red & Orange Gradient</button>
+                <button class="color-btn" style="background-color: #C0C0C0;" onclick="selectColor(this, 'Silver')">Silver</button>
+                <button class="color-btn" style="background-color: #008080;" onclick="selectColor(this, 'Teal')">Teal</button>
+                <button class="color-btn" style="background-color: #FFFFFF;" onclick="selectColor(this, 'White')">White</button>
+                <button class="color-btn" style="background-color: #FFFF00;" onclick="selectColor(this, 'Yellow')">Yellow</button>
+            </div>
+        </div>
+
+        <!-- Generate Button -->
+        <div class="generate-section">
+            <button class="generate-btn" onclick="generateOutput()">Generate My Text Art</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <h3>Your Styled Phrase:</h3>
+            <p id="output-text">Your phrase will appear here...</p>
+        </div>
+    </div>
+
+    <script>
+        // Default selections
+        let selectedStyle = '3D Letters';
+        let selectedColor = 'Black';
+
+        // Select Style
+        function selectStyle(btn, style) {
+            document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedStyle = style;
+            updateOutput();
+        }
+
+        // Select Color
+        function selectColor(btn, color) {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedColor = color;
+            updateOutput();
+        }
+
+        // Update Output
+        function updateOutput() {
+            const phrase = document.getElementById('phrase').value || "Your phrase here...";
+            document.getElementById('output-text').textContent = `${phrase} [Style: ${selectedStyle} | Color: ${selectedColor}]`;
+        }
+
+        // Generate
+        function generateOutput() {
+            alert(`Phrase: "${document.getElementById('phrase').value}"\nStyle: ${selectedStyle}\nColor: ${selectedColor}`);
+        }
+
+        // Initial default selection
+        window.onload = function() {
+            document.querySelectorAll('.style-btn')[0].classList.add('selected');
+            document.querySelectorAll('.color-btn')[0].classList.add('selected');
+            updateOutput();
+        }
+
+        // Alert helper
+        function showAlert(message) {
+            alert(message);
+        }
+    </script>
+</body>
+</html>
